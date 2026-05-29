@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap&text=YourFoundationName');
+@import "tailwindcss";
+
+/* Root font and theme setup */
+:root {
+  font-family: Poppins, sans-serif;
+  color-scheme: light dark;
+}
+
+body {
+  @apply bg-neutral-900 text-white;
+}
+
+/* Hide scrollbar across browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* ---------- Scrolling Gallery Styles ---------- */
+.continuous-scroll-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  padding: 45px 0;
+}
+
+.scroll-wrapper,
+.scroll-wrapper-reverse {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 40s linear infinite;
+  animation-play-state: running;
+}
+
+.scroll-wrapper-reverse {
+  animation-name: scrollRight;
+}
+
+.scroll-wrapper:hover,
+.scroll-wrapper-reverse:hover {
+  animation-play-state: paused;
+}
+
+.scroll-item {
+  flex-shrink: 0;
+  width: 300px;
+  height: 300px;
+  margin: 0 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.scroll-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
