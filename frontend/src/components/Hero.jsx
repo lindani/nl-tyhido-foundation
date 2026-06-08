@@ -100,34 +100,51 @@ const Hero = () => {
   };
 
   return (
-    // Replaced min-h-[85vh] with dynamic full height min-h-screen / h-screen boundaries for mobile device viewports
-    <section className="relative min-h-screen w-full flex items-center justify-center bg-slate-950 overflow-hidden pt-[88px] pb-12 md:py-24">
+    // FIX: Explicitly configured ID boundary anchor matching target string logic inside the navbar element
+    <section id="hero" className="relative min-h-screen w-full flex items-center justify-center bg-slate-950 overflow-hidden pt-[88px] pb-12 md:py-24">
       
-      {/* --- DONATE MODAL --- */}
+      {/* --- PREMIUM DONATE MODAL --- */}
       {showDonateModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setShowDonateModal(false)} />
-          <div className="relative bg-white w-full max-w-lg rounded-[2rem] p-6 md:p-10 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <button className="absolute top-5 right-5 p-2 text-slate-400 hover:text-orange-600 transition-colors" onClick={() => setShowDonateModal(false)}>
-              <X size={22} />
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md transition-all duration-300" onClick={() => setShowDonateModal(false)} />
+          
+          {/* Enhanced Dark Theme glass panel option matching site framework elements */}
+          <div className="relative bg-slate-900/95 border border-white/10 w-full max-w-lg rounded-[2rem] p-6 md:p-10 shadow-2xl overflow-y-auto max-h-[90vh] text-white backdrop-blur-xl">
+            <button className="absolute top-5 right-5 p-2.5 text-slate-400 hover:text-orange-500 rounded-xl hover:bg-white/5 transition-all outline-none" onClick={() => setShowDonateModal(false)}>
+              <X size={20} />
             </button>
             <div className="text-center">
-              <div className="inline-flex p-3 bg-orange-50 text-orange-600 rounded-xl mb-4">
-                <Heart size={28} />
+              <div className="inline-flex p-3.5 bg-orange-500/10 text-orange-500 rounded-2xl mb-4 border border-orange-500/20">
+                <Heart size={26} />
               </div>
-              <h3 className="text-xl md:text-2xl font-black mb-1">Support Our Vision</h3>
-              <p className="text-slate-400 mb-6 text-[10px] uppercase tracking-widest font-bold">Banking Details</p>
+              <h3 className="text-xl md:text-2xl font-black tracking-tight mb-1">Support Our Vision</h3>
+              <p className="text-slate-400 mb-6 text-[10px] uppercase tracking-[0.2em] font-black">Banking Details</p>
               
-              <div className="bg-slate-50 rounded-xl p-4 text-left mb-6 space-y-3 text-xs md:text-sm font-semibold text-slate-700">
-                <div className="flex justify-between border-b border-slate-200 pb-2"><span>Bank</span> <span className="font-bold text-slate-900">Standard Bank</span></div>
-                <div className="flex justify-between border-b border-slate-200 pb-2"><span>Account</span> <span className="text-right font-bold text-slate-900">NL Tyhido Foundation</span></div>
-                <div className="flex justify-between border-b border-slate-200 pb-2"><span>Number</span> <span className="text-orange-600 font-bold">10192837465</span></div>
-                <div className="flex justify-between"><span>Branch</span> <span className="font-bold text-slate-900">051001</span></div>
+              <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 text-left mb-6 space-y-4 text-xs md:text-sm font-semibold text-slate-300">
+                <div className="flex justify-between border-b border-white/5 pb-2.5">
+                  <span className="text-slate-400">Bank</span> 
+                  <span className="font-bold text-white">Standard Bank</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2.5">
+                  <span className="text-slate-400">Account Name</span> 
+                  <span className="text-right font-bold text-white">NL Tyhido Foundation</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2.5">
+                  <span className="text-slate-400">Account Number</span> 
+                  <span className="text-orange-500 font-black tracking-wide">10192837465</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Branch Code</span> 
+                  <span className="font-bold text-white">051001</span>
+                </div>
               </div>
 
-              <button onClick={handleCopyBanking} className="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-orange-600 transition-all active:scale-95 text-sm">
-                {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
-                {copied ? 'Copied!' : 'Copy Details'}
+              <button 
+                onClick={handleCopyBanking} 
+                className="w-full bg-orange-600 hover:bg-orange-500 text-white py-4 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-orange-600/20 active:scale-95 transition-all duration-300"
+              >
+                {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+                {copied ? 'Copied to Clipboard!' : 'Copy Details'}
               </button>
             </div>
           </div>
@@ -150,7 +167,8 @@ const Hero = () => {
             sizes="100vw"
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-black/80" />
+        {/* Adjusted gradient density overlays matching deeper sleek slate navbar backgrounds */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/70 to-slate-950" />
       </div>
 
       {/* --- MAIN HERO BODY CONTENTS --- */}
@@ -162,14 +180,20 @@ const Hero = () => {
               words={currentSlide.title}
             />
           </div>
-          <p className="fade-in mt-4 md:mt-6 text-sm md:text-base lg:text-lg text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="fade-in mt-4 md:mt-6 text-sm md:text-base lg:text-lg text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
             {currentSlide.sub}
           </p>
-          <div className="fade-in flex flex-col sm:flex-row justify-center gap-3.5 max-w-xs sm:max-w-none mx-auto">
-            <button onClick={handleContactClick} className="bg-gradient-to-r from-orange-600 to-orange-500 text-white px-7 py-3.5 rounded-xl font-bold text-sm md:text-base hover:from-orange-500 hover:to-orange-400 transition-all hover:shadow-lg active:scale-97">
+          <div className="fade-in flex flex-col sm:flex-row justify-center gap-4 max-w-xs sm:max-w-none mx-auto">
+            <button 
+              onClick={handleContactClick} 
+              className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-orange-600/10 hover:shadow-orange-600/20"
+            >
               Contact Us
             </button>
-            <button onClick={() => setShowDonateModal(true)} className="border border-white/40 text-white px-7 py-3.5 rounded-xl font-bold text-sm md:text-base hover:bg-white/10 hover:border-white/60 transition-all active:scale-97 backdrop-blur-sm">
+            <button 
+              onClick={() => setShowDonateModal(true)} 
+              className="border border-white/20 bg-white/[0.03] text-white px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm"
+            >
               Support Us
             </button>
           </div>
