@@ -1,210 +1,159 @@
-import { Menu, X, HeartHandshake, UserPlus, Quote, Info, Target, GalleryVertical } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
-
-import { navItems } from '../constants';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ArrowRight, Info, Target, MessageSquare, Image, HandHelping } from 'lucide-react';
 
 const Navbar = () => {
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleNavbar = () => {
-    setMobileDrawerOpen(!mobileDrawerOpen);
-  };
-
-  const handleNavClick = (e, href) => {
-    if (e) e.preventDefault();
-    
-    // 1. Immediately close the mobile drawer when an item is clicked
-    setMobileDrawerOpen(false); 
-    
-    const targetId = href.replace('#', '');
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const isMobile = window.innerWidth < 768;
-      const isObjectives = targetId === 'objectives';
-      
-      const scrollBehavior = (isMobile || isObjectives) ? 'start' : 'center';
-      
-      // Delay slightly if needed to let the layout settle, but smooth scroll handles it great
-      setTimeout(() => {
-        targetElement.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: scrollBehavior,
-          inline: 'nearest' 
-        });
-      }, 100);
-    }
-  };
-
+  // Prevent background viewport movement and scrolling conflicts when menu is active
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
-      
-      if (mobileDrawerOpen) {
-        setShowNavbar(true);
-      } else {
-        setShowNavbar(currentScrollY < lastScrollY || currentScrollY < 10);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY, mobileDrawerOpen]);
-
-  // Lock body scroll when mobile menu is active to prevent twin scrollbars
-  useEffect(() => {
-    if (mobileDrawerOpen) {
+    if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => { document.body.style.overflow = 'unset'; };
-  }, [mobileDrawerOpen]);
+  }, [isOpen]);
 
-  const textColor = isScrolled ? 'text-orange-800' : 'text-white';
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/60 border-b border-neutral-700/50 py-2 backdrop-blur-md' : 'bg-black/20 py-3'
-      } ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
-    >
-      <div className="w-full px-6 mx-auto relative text-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+    // Explicit high structural relative z-index boundary [z-50] for the core element
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      scrolled ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/5 py-4 shadow-xl' : 'bg-transparent py-6'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           
-          {/* --- LOGO GROUP --- */}
-          <div className="flex items-center flex-shrink-0 group cursor-pointer z-50">
-            <div className="w-12 h-12 md:w-14 md:h-14 mr-3 flex items-center justify-center rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105">
-              <img
-                src="/images/nav-logo.png"
-                className="w-full h-full object-contain"
-                alt="Ndithini Foundation Logo"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.style.display = 'none';
-                  if (e.currentTarget.nextSibling) {
-                    e.currentTarget.nextSibling.style.display = 'block';
-                  }
-                }}
-              />
-              <svg 
-                className="h-full w-full text-orange-500 hidden" 
-                fill="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <circle cx="12" cy="12" r="10" />
-              </svg>
-            </div>
+          {/* Official Registered Branding Identification - Elevates higher when active */}
+          <div className="flex-shrink-0 flex flex-col text-left z-[110]">
+            <span className="text-white font-black text-sm sm:text-base md:text-lg tracking-tighter uppercase leading-none">
+              NDITHINI L. TYHIDO <span className="text-orange-500">FOUNDATION</span>
+            </span>
+            <span className="text-[8px] font-black tracking-[0.35em] text-slate-400 mt-1 uppercase block">
+              Registered NPC
+            </span>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-7 font-bold text-sm text-slate-300">
+            <a href="#about" className="flex items-center gap-2 hover:text-orange-500 transition-colors">
+              <Info size={15} className="text-orange-500" /> About Us
+            </a>
+            <a href="#objectives" className="flex items-center gap-2 hover:text-orange-500 transition-colors">
+              <Target size={15} className="text-orange-500" /> Objectives
+            </a>
+            <a href="#testimonials" className="flex items-center gap-2 hover:text-orange-500 transition-colors">
+              <MessageSquare size={15} className="text-orange-500" /> Community Voices
+            </a>
+            <a href="#gallery" className="flex items-center gap-2 hover:text-orange-500 transition-colors">
+              <Image size={15} className="text-orange-500" /> Gallery
+            </a>
             
-            <a href="#" className={`font-bold text-lg md:text-xl transition-colors ${mobileDrawerOpen ? 'text-white' : textColor}`}>
-              Ndithini <span className="text-orange-500">Foundation</span>
+            <a 
+              href="#contact" 
+              className="bg-orange-600 hover:bg-orange-500 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-wider transition-all active:scale-95 shadow-lg shadow-orange-600/10"
+            >
+              Partner With Us <ArrowRight size={14} />
             </a>
           </div>
 
-          {/* --- DESKTOP LINKS --- */}
-          <ul className={`hidden lg:flex ml-14 space-x-8 ${textColor} font-semibold uppercase tracking-wider text-xs`}>
-            {navItems.map((item, index) => (
-              <li key={index}>
-                <a 
-                  href={item.href} 
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className="hover:text-orange-500 transition-colors cursor-pointer"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* --- DESKTOP BUTTONS --- */}
-          <div className="hidden lg:flex justify-center space-x-4 items-center">
+          {/* Mobile Hamburg Trigger button - Pushed up on the z-axis layers */}
+          <div className="md:hidden z-[110]">
             <button
-              onClick={() => toast.success('Coming Soon!')}
-              className={`py-2 px-4 border border-white/20 rounded-xl ${textColor} font-bold hover:bg-white/10 transition-all`}
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white outline-none active:scale-95 transition-all"
+              aria-label="Toggle navigation structural framework menu"
             >
-              Support Us
-            </button>
-            <button
-              onClick={() => toast.success('Coming Soon!')}
-              className="bg-orange-600 hover:bg-orange-500 py-2 px-4 rounded-xl text-white font-bold transition-all shadow-lg active:scale-95"
-            >
-              Get Started
-            </button>
-          </div>
-
-          {/* --- MOBILE TRIGGER --- */}
-          <div className="lg:hidden flex items-center z-50">
-            <button 
-              onClick={toggleNavbar} 
-              className="text-orange-500 p-2 focus:outline-none"
-              aria-label="Toggle Menu"
-            >
-              {mobileDrawerOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* --- OPAQUE & CLOSABLE MOBILE DRAWER --- */}
-      <div 
-        className={`fixed inset-0 top-0 right-0 z-40 bg-neutral-950 w-full h-screen overflow-y-auto px-8 pt-28 pb-12 flex flex-col justify-between items-center lg:hidden transition-transform duration-350 ease-in-out ${
-          mobileDrawerOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <ul className="space-y-5 text-xl text-white font-medium w-full max-w-sm mx-auto text-center">
-          {navItems.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-center space-x-3 hover:text-orange-500 transition-colors py-2.5 border-b border-white/5"
-              onClick={(e) => handleNavClick(e, item.href)}
-            >
-              {item.label === 'Testimonials' && <Quote size={20} className="text-orange-500" />}
-              {item.label === 'About' && <Info size={20} className="text-orange-500" />}
-              {item.label === 'Objectives' && <Target size={20} className="text-orange-500" />}
-              {item.label === 'Gallery' && <GalleryVertical size={20} className="text-orange-500" />}
-              <a 
-                href={item.href}
-                className="cursor-pointer tracking-wide"
-                onClick={(e) => e.preventDefault()} // Handled by parent li click event handler
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex flex-col space-y-4 w-full max-w-sm mx-auto mt-auto pt-8">
-          <button
-            onClick={() => {
-              setMobileDrawerOpen(false);
-              toast('Support Us feature coming soon!', {
-                icon: '👏',
-                style: { borderRadius: '10px', background: '#333', color: '#fff' }
-              });
-            }}
-            className="flex items-center justify-center gap-2 py-3.5 px-4 border border-orange-600 rounded-xl hover:bg-orange-700 transition text-white font-bold"
-          >
-            <HeartHandshake size={20} /> Support Us
-          </button>
+      {/* 
+        ALTERNATIVE SOLID OVERLAY SOLUTION:
+        Using full-screen absolute coverage with explicit top-0, left-0, 100vh height, 
+        solid bg-slate-950, and absolute blocking index layer z-[100] to bypass clashing text.
+      */}
+      <div className={`fixed inset-0 w-full h-screen bg-slate-950 transition-all duration-300 ease-in-out z-[100] md:hidden flex flex-col justify-between px-6 pt-32 pb-10 ${
+        isOpen ? 'opacity-100 pointer-events-auto transform translate-y-0' : 'opacity-0 pointer-events-none transform -translate-y-4'
+      }`}>
+        
+        {/* Core Navigation Links Matrix Grid */}
+        <div className="grid grid-cols-1 gap-3 max-w-md mx-auto w-full">
+          <p className="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] pl-2 mb-1">Navigation Menu</p>
           
-          <button
-            onClick={() => {
-              setMobileDrawerOpen(false);
-              toast('Create Account feature coming soon!', {
-                icon: '👏',
-                style: { borderRadius: '10px', background: '#333', color: '#fff' }
-              });
-            }}
-            className="flex items-center justify-center gap-2 py-3.5 px-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:opacity-95 transition font-bold shadow-lg"
+          <a 
+            href="#about" 
+            onClick={() => setIsOpen(false)} 
+            className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-200 hover:text-white hover:bg-white/[0.05] active:scale-[0.99] transition-all"
           >
-            <UserPlus size={20} /> Create an Account
-          </button>
+            <div className="p-2.5 bg-orange-600/10 rounded-xl text-orange-500">
+              <Info size={18} />
+            </div>
+            <span className="font-bold text-base tracking-wide">About Us</span>
+          </a>
+
+          <a 
+            href="#objectives" 
+            onClick={() => setIsOpen(false)} 
+            className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-200 hover:text-white hover:bg-white/[0.05] active:scale-[0.99] transition-all"
+          >
+            <div className="p-2.5 bg-orange-600/10 rounded-xl text-orange-500">
+              <Target size={18} />
+            </div>
+            <span className="font-bold text-base tracking-wide">Objectives</span>
+          </a>
+
+          <a 
+            href="#testimonials" 
+            onClick={() => setIsOpen(false)} 
+            className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-200 hover:text-white hover:bg-white/[0.05] active:scale-[0.99] transition-all"
+          >
+            <div className="p-2.5 bg-orange-600/10 rounded-xl text-orange-500">
+              <MessageSquare size={18} />
+            </div>
+            <span className="font-bold text-base tracking-wide">Community Voices</span>
+          </a>
+
+          <a 
+            href="#gallery" 
+            onClick={() => setIsOpen(false)} 
+            className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-200 hover:text-white hover:bg-white/[0.05] active:scale-[0.99] transition-all"
+          >
+            <div className="p-2.5 bg-orange-600/10 rounded-xl text-orange-500">
+              <Image size={18} />
+            </div>
+            <span className="font-bold text-base tracking-wide">Gallery</span>
+          </a>
         </div>
+        
+        {/* Call to Action Anchor Module (Bottom Sticky Anchor) */}
+        <div className="max-w-md mx-auto w-full space-y-6">
+          <div className="border-t border-white/5 pt-6">
+            <a 
+              href="#contact" 
+              onClick={() => setIsOpen(false)}
+              className="w-full bg-orange-600 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-xl shadow-orange-600/20 active:scale-95 transition-all"
+            >
+              <HandHelping size={18} /> Partner With Us <ArrowRight size={16} />
+            </a>
+          </div>
+          
+          <div className="text-center">
+            <p className="text-[9px] font-black uppercase text-slate-600 tracking-widest">
+              Registration No: 2023 / 564482 / 08
+            </p>
+          </div>
+        </div>
+
       </div>
     </nav>
   );

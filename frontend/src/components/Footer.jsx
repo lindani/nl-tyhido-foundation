@@ -17,25 +17,19 @@ const Footer = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Dynamic environment API switch fallback to origin domain if env is empty
     const API_BASE = process.env.REACT_APP_API_URL || window.location.origin;
 
     try {
       const response = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -56,7 +50,6 @@ const Footer = () => {
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     if (!newsletterEmail) return;
-    
     toast.success('Thank you for subscribing to our newsletter updates!');
     setNewsletterEmail('');
   };
@@ -67,7 +60,6 @@ const Footer = () => {
       <section id="contact" className="py-16 md:py-32 bg-slate-50 px-4 sm:px-6 relative z-10">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Contact Copy Branding Column */}
           <div className="lg:col-span-5 space-y-8 text-center lg:text-left">
             <div>
               <span className="text-orange-600 font-black text-[10px] uppercase tracking-[0.4em] mb-3 block">Get In Touch</span>
@@ -105,7 +97,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Contact Card Interactive Form Column */}
           <div className="lg:col-span-7 bg-white p-6 sm:p-8 md:p-12 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/80 w-full">
             <form className="space-y-4 md:space-y-5" onSubmit={handleSubmit}>
               <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
@@ -181,17 +172,16 @@ const Footer = () => {
       <footer className="bg-slate-950 text-white pt-16 md:pt-24 pb-8 px-4 sm:px-6 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto">
           
-          {/* Main Informative Layout Sections Wrapper */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 lg:mb-20">
             
-            {/* Founder Branding Column Container Block */}
+            {/* Left Column Profile Branding */}
             <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 mb-6 group w-full justify-center lg:justify-start">
                 <div className="relative flex-shrink-0">
                   <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border border-white/10 group-hover:border-orange-500/50 transition-all duration-500 rotate-2 group-hover:rotate-0 shadow-2xl">
                     <img
                       src="/images/ndibs-profile.png"
-                      alt="Ndithini L Tyhido"
+                      alt="Ndithini L. Tyhido"
                       className="w-full h-full object-cover object-top scale-105 group-hover:scale-100 transition-transform duration-500"
                       onError={(e) => {
                         e.currentTarget.onerror = null;
@@ -206,7 +196,7 @@ const Footer = () => {
 
                 <div className="flex flex-col text-center sm:text-left">
                   <h4 className="text-xl md:text-2xl font-black tracking-tight leading-none text-white uppercase">
-                    NDITHINI <span className="text-orange-500">L TYHIDO</span>
+                    NDITHINI <span className="text-orange-500">L. TYHIDO</span>
                   </h4>
                   <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 mt-2 block">
                     Founder & Visionary
@@ -218,7 +208,6 @@ const Footer = () => {
                 Dedicated to molding ethical leaders and self-sufficient youth within the heart of South African communities.
               </p>
 
-              {/* Social Anchors Layer Grid */}
               <div className="flex items-center gap-3">
                 <a href="https://facebook.com/NDITHINI" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 hover:border-blue-600 hover:-translate-y-0.5 transition-all duration-300" aria-label="Facebook"><FaFacebook size={16} /></a>
                 <a href="https://twitter.com/NLTF_SA" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-900 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300" aria-label="Twitter"><FaTwitter size={16} /></a>
@@ -227,7 +216,6 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Navigation Navigation Menu Columns */}
             <div className="lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left border-y border-white/5 lg:border-none py-8 lg:py-0">
               <div className="w-full">
                 <h6 className="text-[10px] font-black uppercase text-orange-500 tracking-widest mb-5">
@@ -236,13 +224,12 @@ const Footer = () => {
                 <ul className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-3 text-slate-400 font-bold text-sm">
                   <li><a href="#about" className="hover:text-orange-400 transition-colors">About Us</a></li>
                   <li><a href="#objectives" className="hover:text-orange-400 transition-colors">Objectives</a></li>
-                  <li><a href="#gallery" className="hover:text-orange-400 transition-colors">Impact Gallery</a></li>
+                  <li><a href="#testimonials" className="hover:text-orange-400 transition-colors">Community Voices</a></li>
                   <li><a href="#contact" className="hover:text-orange-400 transition-colors">Contact Hub</a></li>
                 </ul>
               </div>
             </div>
 
-            {/* Newsletter Container Card Widget Block */}
             <div className="lg:col-span-4 bg-white/[0.02] p-6 sm:p-8 rounded-3xl border border-white/5 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
               <h6 className="text-[10px] font-black uppercase text-orange-500 tracking-widest mb-3">
                 Newsletter
@@ -273,12 +260,23 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Core System Bottom Credits Bar Layer */}
+          {/* Bottom Legal bar updated with official paperwork name and developer credit */}
           <div className="pt-8 border-t border-white/5 flex flex-col-reverse md:flex-row justify-between items-center gap-6 text-center md:text-left">
-            <div className="text-[9px] font-black text-slate-500 flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 uppercase tracking-[0.2em]">
-              <span>© 2026 Ndithini L Tyhido Foundation</span>
+            <div className="text-[9px] font-black text-slate-500 flex flex-wrap justify-center md:justify-start items-center gap-x-6 gap-y-2 uppercase tracking-[0.2em]">
+              <span>© 2026 Ndithini L. Tyhido Foundation (NPC)</span>
               <a href="#" className="hover:text-white transition-colors">Privacy Statement</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              
+              {/* --- DEVELOPER LINK ADDITION --- */}
+              <a 
+                href="https://www.linkedin.com/in/lindani-pani-81916b100/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-1.5 text-slate-500 hover:text-orange-500 transition-colors border-l border-white/10 pl-0 md:pl-6 normal-case tracking-wider font-bold"
+              >
+                <FaLinkedin size={11} className="text-slate-500 group-hover:text-orange-500" />
+                <span>Built by Lindani Pani</span>
+              </a>
             </div>
 
             <button onClick={scrollToTop} className="flex items-center gap-2.5 text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-orange-500 transition-all group shrink-0">
