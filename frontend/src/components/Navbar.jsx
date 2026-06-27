@@ -70,18 +70,18 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* FIX: Wrapped logo in a structural anchor targeting #hero. Resets mobile menu state on click. */}
+          {/* Desktop and Mobile Consolidated Logo Heading */}
           <a 
             href="#hero"
             onClick={() => setIsOpen(false)}
-            className="flex-shrink-0 flex flex-col text-left z-[110] group cursor-pointer outline-none select-none"
+            className="flex-shrink-0 flex items-center z-[110] group cursor-pointer outline-none select-none"
           >
-            <span className="text-white font-black text-sm sm:text-base md:text-lg tracking-tighter uppercase leading-none transition-colors duration-300 group-hover:text-slate-200">
-              NDITHINI L. TYHIDO <span className="text-orange-500 inline-block transition-transform group-hover:scale-105 duration-300">FOUNDATION</span>
-            </span>
-            <span className="text-[8px] font-black tracking-[0.35em] text-slate-400 mt-1 uppercase block transition-colors duration-300 group-hover:text-orange-500/80">
-              Registered NPC
-            </span>
+            {/* Unified, alpha-transparent consolidated horizontal heading asset */}
+            <img 
+              src="/images/navbar-logo1.png" 
+              alt="Ndithini L Tyhido Foundation" 
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -120,8 +120,11 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Mobile Hamburg Trigger Button */}
-          <div className="md:hidden z-[110]">
+          {/* Mobile Hamburg Trigger Button Area */}
+          <div className="md:hidden z-[110] flex items-center gap-3">
+            
+            {/* [FIX]: Wording/Logo placeholder logic removed, mobile uses standard heading above */}
+            
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white outline-none active:scale-95 transition-all duration-300"
